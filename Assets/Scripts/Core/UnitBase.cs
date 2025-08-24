@@ -60,7 +60,7 @@ namespace GamePlay
             return false;
         }
 
-        public bool HasUnitData<T>() where T : class, IUnitData
+        public bool HasUnitData<T>() where T : struct, IUnitData
         {
             var type = typeof(T);
             return HasUnitData(type);

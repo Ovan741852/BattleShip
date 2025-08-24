@@ -17,6 +17,8 @@ namespace GamePlay
         private List<UnitBase> _selections;
         private Type[] _requiredDataTypes;
 
+        protected IUnitDict unitDict => _unitDict;
+
         public void Init(UnitDict unitDict)
         {
             _unitDict = unitDict;

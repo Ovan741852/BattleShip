@@ -24,4 +24,9 @@ namespace GamePlay.UnitData
     {
         public Transform transform;
     }
+
+    public struct PerceptionData : IUnitData
+    {
+
+    }
 }

@@ -27,6 +27,9 @@ public class GameApp : MonoBehaviour
         apple.AddUnitData(new TransformData() { position = new Vector3(20, 0, 20), rotation = 0 });
         apple.AddUnitData(new ViewData() { transform = GameObject.CreatePrimitive(PrimitiveType.Sphere).transform });
         _unitDict.AddUnit(apple);
+
+        var brainFactory = new BrainFactory();
+        brainFactory.AddBehaviorConfigurator(new FindApple());
     }
 
     void Update()

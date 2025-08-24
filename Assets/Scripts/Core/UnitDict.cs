@@ -4,7 +4,12 @@ using UnityEngine;
 
 namespace GamePlay
 {
-    public class UnitDict 
+    public interface IUnitDict
+    {
+        void GetUnits(Func<UnitBase, bool> selector, ref List<UnitBase> result);
+    }
+
+    public class UnitDict : IUnitDict
     {
         public UnitDict()
         {
