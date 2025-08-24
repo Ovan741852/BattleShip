@@ -10,10 +10,12 @@ namespace GamePlay
         {
             OnCreated();
             _selections = new List<UnitBase>();
+            _requiredDataTypes = GetRequiredDataTypes();
         }
 
         private UnitDict _unitDict;
         private List<UnitBase> _selections;
+        private Type[] _requiredDataTypes;
 
         public void Init(UnitDict unitDict)
         {
@@ -22,14 +24,17 @@ namespace GamePlay
 
         protected virtual void OnCreated() { }
 
-        protected abstract void OnUpdate(float deltaTime, IReadOnlyList<UnitBase> selections);
+        protected abstract void OnUpdateUnit(float deltaTime, UnitBase unit);
 
-        protected abstract bool Picker(UnitBase unit);
+        protected abstract Type[] GetRequiredDataTypes();
 
         public void Update(float deltaTime)
         {
-            _unitDict.GetUnits(Picker, ref _selections);
-            OnUpdate(deltaTime, _selections);
+            _unitDict.GetUnits(_requiredDataTypes, ref _selections);
+            foreach(var selection in _selections)
+            {
+                OnUpdateUnit(deltaTime, selection);
+            }
         }
     }
 }

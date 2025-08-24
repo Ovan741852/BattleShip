@@ -5,60 +5,86 @@ using UnityEngine;
 
 namespace GamePlay
 {
-    public interface IUnitComponent
+    public interface IUnitData
     {
 
     }
 
-    public class UnitComponent<T>: IUnitComponent where T : struct
+    public interface IUnitDataHandle<T> where T : struct, IUnitData
     {
-        public UnitComponent(T initValue)
-        {
-            value = initValue;
-        }
-
-        public T value { get; set; }
+        T value { get; set; }
     }
+
 
     public class UnitBase
     {
         public UnitBase()
         {
-            _components = new Dictionary<Type, IUnitComponent>();
+            _states = new Dictionary<Type, IState>();
         }
 
-        private Dictionary<Type, IUnitComponent> _components;
+        private Dictionary<Type, IState> _states;
 
-        public void AddComponent<T>(T component) where T : IUnitComponent
+        public void AddUnitData<T>(T data) where T : struct, IUnitData
         {
             var type = typeof(T);
-            if (_components.ContainsKey(type))
+            if(!_states.TryGetValue(type, out var state))
             {
-                Debug.LogWarning("Duplicated Component");
+                var instance = new State<T>();
+                instance.value = data;
+                _states.Add(type, instance);
+                state = instance;
+            }
+
+            if (state.activated)
+            {
+                Debug.LogError("duplicated component");
                 return;
             }
-            _components.Add(type, component);
+            state.activated = true;
         }
 
-        public T GetComponent<T>() where T : class, IUnitComponent
+        public IUnitDataHandle<T> GetUnitData<T>() where T : struct, IUnitData
         {
             var type = typeof(T);
-            _components.TryGetValue(type, out var result);
-            return result as T;
+            if (_states.TryGetValue(type, out var state) && state.activated)
+                return state as State<T>;
+            else
+                return null;
         }
 
-        public bool HasComponent<T>() where T : class, IUnitComponent
+        public bool HasUnitData(Type type)
         {
-            var type = typeof(T);
-            return _components.ContainsKey(type);
+            if (_states.TryGetValue(type, out var state) && state.activated)
+                return true;
+            return false;
         }
 
-        public void RemoveComponent<T>() where T : IUnitComponent
+        public bool HasUnitData<T>() where T : class, IUnitData
         {
             var type = typeof(T);
-            if (!_components.ContainsKey(type))
+            return HasUnitData(type);
+        }
+
+        public void RemoveUnitData<T>() where T : IUnitData
+        {
+            var type = typeof(T);
+            if (!_states.TryGetValue(type, out var state))
                 return;
-            _components.Remove(type);
+            state.activated = false;
+        }
+
+        interface IState
+        {
+            public bool activated { get; set; }
+        }
+
+        class State<T> : IState, IUnitDataHandle<T> where T : struct, IUnitData
+        {
+            public State() { }
+
+            public bool activated { get; set; }
+            public T value { get; set; }
         }
     }
 }

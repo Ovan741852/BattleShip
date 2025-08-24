@@ -1,32 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using GamePlay.UnitData;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GamePlay
 {
-    public struct ViewData
-    {
-        public Transform transform;
-    }
-
     public class ViewSystem : SystemBase
     {
-        protected override bool Picker(UnitBase unit)
+        protected override Type[] GetRequiredDataTypes()
         {
-            if (!unit.HasComponent<UnitComponent<TransformData>>())
-                return false;
-            if (!unit.HasComponent<UnitComponent<ViewData>>())
-                return false;
-            return true;
+            return new Type[] {
+                typeof(TransformData),
+                typeof(ViewData),
+            };
         }
 
-        protected override void OnUpdate(float deltaTime, IReadOnlyList<UnitBase> selections)
+        protected override void OnUpdateUnit(float deltaTime, UnitBase unit)
         {
-            foreach(var selection in selections)
-            {
-                var transformData = selection.GetComponent<UnitComponent<TransformData>>();
-                var viewData = selection.GetComponent<UnitComponent<ViewData>>();
-                viewData.value.transform.position = transformData.value.position;
-            }
+            var transformData = unit.GetUnitData<TransformData>();
+            var viewData = unit.GetUnitData<ViewData>();
+
+            var transform = viewData.value.transform;
+            transform.position = transformData.value.position;
         }
     }
 }

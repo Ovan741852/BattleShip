@@ -23,13 +23,24 @@ namespace GamePlay
             _allUnits.Remove(unit);
         }
 
-        public void GetUnits(Func<UnitBase, bool> picker, ref List<UnitBase> selections)
+        public void GetUnits(Type[] types, ref List<UnitBase> selections)
         {
+            bool HasRequireDatas(UnitBase unit)
+            {
+                foreach(var type in types)
+                {
+                    if (!unit.HasUnitData(type))
+                        return false;
+                }
+                return true;
+            }
+
             selections.Clear();
             selections.AddRange(_allUnits);
             for (int i = selections.Count - 1; i >= 0; i--)
             {
-                if (picker(selections[i]))
+                var unit = selections[i];
+                if (HasRequireDatas(unit))
                     continue;
                 selections.RemoveAt(i);
             }
