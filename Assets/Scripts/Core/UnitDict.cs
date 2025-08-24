@@ -45,5 +45,15 @@ namespace GamePlay
                 selections.RemoveAt(i);
             }
         }
+
+        public void GetUnits(Func<UnitBase, bool> selector, ref List<UnitBase> result)
+        {
+            result.Clear();
+            foreach (var unit in _allUnits)
+            {
+                if (selector(unit))
+                    result.Add(unit);
+            }
+        }
     }
 }
