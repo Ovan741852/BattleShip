@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GamePlay
@@ -10,6 +11,24 @@ namespace GamePlay
         bool CanUse(UnitBase unit);
 
         void Execute(UnitBase unit);
+    }
+
+    public class SimpleThinkRule : IThinkRule
+    {
+        private int _priority;
+        private Func<UnitBase, bool> _canUse;
+        private Action<UnitBase> _execute;
+
+        public SimpleThinkRule(int priority, Func<UnitBase, bool> canUse, Action<UnitBase> execute)
+        {
+            _priority = priority;
+            _canUse = canUse;
+            _execute = execute;
+        }
+
+        public int priority => _priority;
+        public bool CanUse(UnitBase unit) => _canUse(unit);
+        public void Execute(UnitBase unit) => _execute(unit);
     }
 
     public class BrainBase 

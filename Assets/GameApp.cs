@@ -41,9 +41,7 @@ public class GameApp : MonoBehaviour
         }
 
         var brainFactory = new BrainFactory();
-        brainFactory.AddBehaviorConfigurator(new FindAppleConfigurator());
-        brainFactory.AddBehaviorConfigurator(new EatAppleConfigurator());
-        brainFactory.AddBehaviorConfigurator(new MoveToAppleConfigurator());
+        brainFactory.AddBehaviorConfigurator(new AppleBehaviorConfigurator());
 
         _brains = new List<BrainBase>();
         _brains.Add(brainFactory.CreateBrain(unit));
