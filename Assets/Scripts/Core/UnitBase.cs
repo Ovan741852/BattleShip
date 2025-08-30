@@ -44,7 +44,7 @@ namespace GamePlay
 
             if (state.activated)
             {
-                Debug.LogError("duplicated component");
+                Debug.LogError($"duplicated component: {type.Name}");
                 return;
             }
             state.activated = true;

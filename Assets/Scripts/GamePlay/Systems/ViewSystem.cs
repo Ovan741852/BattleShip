@@ -22,6 +22,7 @@ namespace GamePlay
 
             var transform = viewData.value.transform;
             transform.position = transformData.value.position;
+            transform.rotation = Quaternion.Euler(0, transformData.value.rotation, 0);
         }
 
         public override void OnUnitRemoved(UnitBase unit)

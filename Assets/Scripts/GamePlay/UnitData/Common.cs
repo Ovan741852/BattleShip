@@ -4,12 +4,21 @@ using UnityEngine;
 
 namespace GamePlay.UnitData
 {
+    public struct TeamData : IUnitData
+    {
+        public int id;
+    }
+
     public struct ViewData : IUnitData
     {
         public Transform transform;
     }
 
-    public struct KillData : IUnitData {}
+    public struct HealthData : IUnitData {
+        public int health;
+
+        public int maxHealth;
+    }
 
     public struct TransformData : IUnitData
     {
@@ -21,6 +30,12 @@ namespace GamePlay.UnitData
     public struct MovementData : IUnitData
     {
         public float speed;
+
+        public float maxSpeed;
+
+        public float acceleration;
+
+        public float angularSpeed;
     }
 
     public struct DestinationData : IUnitData

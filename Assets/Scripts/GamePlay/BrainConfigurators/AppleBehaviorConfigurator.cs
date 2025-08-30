@@ -56,7 +56,7 @@ namespace GamePlay
                 u =>
                 {
                     var found = u.GetData<FindAppleData>();
-                    found.target.AddUnitData(new KillData());
+                    found.target.AddUnitData(new HealthData() { health = 0 });
                     u.RemoveUnitData<FindAppleData>();
                 }
             ));
