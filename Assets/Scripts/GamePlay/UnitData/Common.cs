@@ -4,9 +4,21 @@ using UnityEngine;
 
 namespace GamePlay.UnitData
 {
+    public struct FrontalWeaponData : IUnitData
+    {
+        public float distance;
+
+        public float cooldown;
+    }
+
     public struct TeamData : IUnitData
     {
         public int id;
+    }
+
+    public struct ColliderData : IUnitData
+    {
+        public float radius;
     }
 
     public struct ViewData : IUnitData

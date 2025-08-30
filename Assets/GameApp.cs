@@ -6,6 +6,7 @@ using GamePlay.UnitData;
 
 public class GameApp : MonoBehaviour
 {
+    public GameObject ship;
     private UnitDict _unitDict;
     private SystemManager _systemManager;
     private BrainManager _brainManager;
@@ -15,11 +16,11 @@ public class GameApp : MonoBehaviour
         _unitDict = new UnitDict();
         _systemManager = new SystemManager(_unitDict);
 
-        // ³]¸m¨t²Î
+        // ï¿½]ï¿½mï¿½tï¿½ï¿½
         _systemManager.AddSystem<ViewSystem>();
         _systemManager.AddSystem<MoveSystem>();
         _systemManager.AddSystem<PerceptionSystem>();
-        _systemManager.AddSystem<KillSystem>();
+        _systemManager.AddSystem<HealthSystem>();
 
         var brainFactory = new BrainFactory();
         brainFactory.AddBehaviorConfigurator(new AppleBehaviorConfigurator());
@@ -28,22 +29,32 @@ public class GameApp : MonoBehaviour
         CreateUnits();
     }
 
-    private void CreateUnits()
+    private void CreateShip(int teamId, Vector3 position, float rotation)
     {
         var unit = new UnitBase();
-        unit.AddUnitData(new MovementData() { speed = 10 });
-        unit.AddUnitData(new TransformData() { position = Vector3.zero, rotation = 0 });
-        unit.AddUnitData(new ViewData() { transform = GameObject.CreatePrimitive(PrimitiveType.Capsule).transform });
+        unit.AddUnitData(new MovementData()
+        {
+            speed = 0f,
+            maxSpeed = 15f,
+            acceleration = 8f,
+            angularSpeed = 60f
+        });
+        unit.AddUnitData(new TransformData() { position = position, rotation = rotation });
+        unit.AddUnitData(new ViewData() { transform = Instantiate(ship).transform });
+        unit.AddUnitData(new TeamData() { id = teamId });
+        unit.AddUnitData(new ColliderData() { radius = 2 });
         _unitDict.AddUnit(unit);
-        _brainManager.AddBrain(unit);  // ²Î¤@²K¥[ Brain
+        _brainManager.AddBrain(unit);
+    }
 
+    private void CreateUnits()
+    {
         for (int i = 0; i < 10; i++)
         {
-            var apple = new UnitBase();
-            var position = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
-            apple.AddUnitData(new TransformData() { position = position, rotation = 0 });
-            apple.AddUnitData(new ViewData() { transform = GameObject.CreatePrimitive(PrimitiveType.Sphere).transform });
-            _unitDict.AddUnit(apple);
+            var teamId = i % 2 + 1;
+            var position = new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
+            var rotation = Random.Range(0, 360);
+            CreateShip(teamId, position, rotation);
         }
     }
 

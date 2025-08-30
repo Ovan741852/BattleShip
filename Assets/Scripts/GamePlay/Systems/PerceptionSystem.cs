@@ -19,14 +19,19 @@ namespace GamePlay
         {
             return new Type[]
             {
-                typeof(MovementData)
+                typeof(TeamData)
             };
         }
 
         protected override void OnUpdateUnit(float deltaTime, UnitBase unit)
         {
             unit.RemoveUnitData<PerceptionData>();
-            unitDict.GetUnits(target => !target.HasUnitData<MovementData>(), ref _selections);
+            var selfTeam = unit.GetData<TeamData>();
+            var selfTeamId = selfTeam.id;
+            unitDict.GetUnits(target => {
+                var otherTeam = target.GetUnitData<TeamData>();
+                return otherTeam != null && otherTeam.value.id != selfTeamId;
+            }, ref _selections);
             if (_selections.Count == 0)
                 return;
 
