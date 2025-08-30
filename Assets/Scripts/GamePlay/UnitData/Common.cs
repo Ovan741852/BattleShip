@@ -9,10 +9,7 @@ namespace GamePlay.UnitData
         public Transform transform;
     }
 
-    public struct KillData : IUnitData
-    {
-
-    }
+    public struct KillData : IUnitData {}
 
     public struct TransformData : IUnitData
     {

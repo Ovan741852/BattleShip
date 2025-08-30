@@ -42,6 +42,8 @@ namespace GamePlay
         private UnitBase _unit;
         private List<IThinkRule> _thinkRules;
 
+        public UnitBase unit => _unit;
+
         public void AddThinkRule(IThinkRule thinkRule)
         {
             _thinkRules.Add(thinkRule);
