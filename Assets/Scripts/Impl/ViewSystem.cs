@@ -23,5 +23,12 @@ namespace GamePlay
             var transform = viewData.value.transform;
             transform.position = transformData.value.position;
         }
+
+        public override void OnUnitRemoved(UnitBase unit)
+        {
+            base.OnUnitRemoved(unit);
+            var viewData = unit.GetUnitData<ViewData>();
+            GameObject.Destroy(viewData.value.transform.gameObject);
+        }
     }
 }

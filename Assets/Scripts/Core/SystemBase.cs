@@ -38,5 +38,12 @@ namespace GamePlay
                 OnUpdateUnit(deltaTime, selection);
             }
         }
+
+        protected void RemoveUnit(UnitBase unit)
+        {
+            unitDict.RemoveUnit(unit);
+        }
+
+        public virtual void OnUnitRemoved(UnitBase unit) { }
     }
 }

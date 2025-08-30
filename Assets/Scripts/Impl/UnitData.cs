@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 namespace GamePlay.UnitData
@@ -23,10 +24,5 @@ namespace GamePlay.UnitData
     public struct ViewData : IUnitData
     {
         public Transform transform;
-    }
-
-    public struct PerceptionData : IUnitData
-    {
-
     }
 }

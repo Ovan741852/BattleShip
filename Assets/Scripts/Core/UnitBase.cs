@@ -18,12 +18,18 @@ namespace GamePlay
 
     public class UnitBase
     {
+        private static int _serialNo = 1000;
+
         public UnitBase()
         {
+            _unitId = _serialNo++;
             _states = new Dictionary<Type, IState>();
         }
 
+        private int _unitId;
         private Dictionary<Type, IState> _states;
+
+        public int UnitId => _unitId;
 
         public void AddUnitData<T>(T data) where T : struct, IUnitData
         {
@@ -42,6 +48,7 @@ namespace GamePlay
                 return;
             }
             state.activated = true;
+            (state as State<T>).value = data;
         }
 
         public IUnitDataHandle<T> GetUnitData<T>() where T : struct, IUnitData

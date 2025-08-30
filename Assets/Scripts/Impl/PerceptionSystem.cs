@@ -4,14 +4,21 @@ using System.Collections.Generic;
 
 namespace GamePlay
 {
+    public struct PerceptionData : IUnitData
+    {
+        public List<UnitBase> targets;
+    }
+
     public class PerceptionSystem : SystemBase
     {
         public PerceptionSystem()
         {
             _selections = new List<UnitBase>();
+            _containers = new Dictionary<int, List<UnitBase>>();
         }
 
         private List<UnitBase> _selections;
+        private Dictionary<int, List<UnitBase>> _containers;
 
         protected override Type[] GetRequiredDataTypes()
         {
@@ -23,12 +30,27 @@ namespace GamePlay
 
         protected override void OnUpdateUnit(float deltaTime, UnitBase unit)
         {
+            unit.RemoveUnitData<PerceptionData>();
             unitDict.GetUnits(target => !target.HasUnitData<MovementData>(), ref _selections);
-            unit.RemoveUnitData<DestinationData>();
-            unit.AddUnitData(new DestinationData()
+            if (_selections.Count == 0)
+                return;
+
+            if(!_containers.TryGetValue(unit.UnitId, out var targets))
             {
-                position = _selections[0].GetUnitData<TransformData>().value.position
+                targets = new List<UnitBase>();
+                _containers.Add(unit.UnitId, targets);
+            }
+            targets.Clear();
+            targets.AddRange(_selections);
+            unit.AddUnitData(new PerceptionData()
+            {
+                targets = targets
             });
+        }
+
+        public override void OnUnitRemoved(UnitBase unit)
+        {
+            _containers.Remove(unit.UnitId);
         }
     }
 }

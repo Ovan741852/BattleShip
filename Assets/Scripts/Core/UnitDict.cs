@@ -7,6 +7,8 @@ namespace GamePlay
     public interface IUnitDict
     {
         void GetUnits(Func<UnitBase, bool> selector, ref List<UnitBase> result);
+
+        void RemoveUnit(UnitBase unit);
     }
 
     public class UnitDict : IUnitDict
@@ -18,6 +20,8 @@ namespace GamePlay
 
         private List<UnitBase> _allUnits;
 
+        public Action<UnitBase> onUnitRemoved;
+
         public void AddUnit(UnitBase unit)
         {
             _allUnits.Add(unit);
@@ -26,6 +30,7 @@ namespace GamePlay
         public void RemoveUnit(UnitBase unit)
         {
             _allUnits.Remove(unit);
+            onUnitRemoved?.Invoke(unit);
         }
 
         public void GetUnits(Type[] types, ref List<UnitBase> selections)
