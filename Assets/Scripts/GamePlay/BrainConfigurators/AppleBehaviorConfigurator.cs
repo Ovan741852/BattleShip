@@ -1,7 +1,7 @@
-﻿using GamePlay.UnitData;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using UnityEngine;
+using GamePlay.UnitData;
 
 namespace GamePlay
 {
@@ -9,6 +9,7 @@ namespace GamePlay
     {
         public UnitBase target;
     }
+
     public class AppleBehaviorConfigurator : IBehaviorConfigurator
     {
         public void ConfigureBehavior(BrainBase brain, UnitBase unit)

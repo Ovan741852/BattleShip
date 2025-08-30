@@ -1,9 +1,19 @@
-﻿using System.Collections.Generic;
-using Unity.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GamePlay.UnitData
 {
+    public struct ViewData : IUnitData
+    {
+        public Transform transform;
+    }
+
+    public struct KillData : IUnitData
+    {
+
+    }
+
     public struct TransformData : IUnitData
     {
         public Vector3 position;
@@ -21,8 +31,8 @@ namespace GamePlay.UnitData
         public Vector3 position;
     }
 
-    public struct ViewData : IUnitData
+    public struct PerceptionData : IUnitData
     {
-        public Transform transform;
+        public List<UnitBase> targets;
     }
 }

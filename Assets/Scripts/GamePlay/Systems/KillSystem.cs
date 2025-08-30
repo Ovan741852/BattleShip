@@ -1,15 +1,10 @@
-﻿using GamePlay.UnitData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using GamePlay.UnitData;
 
 namespace GamePlay
 {
-    public struct KillData : IUnitData
-    {
-
-    }
-
     public class KillSystem : SystemBase
     {
         protected override Type[] GetRequiredDataTypes()

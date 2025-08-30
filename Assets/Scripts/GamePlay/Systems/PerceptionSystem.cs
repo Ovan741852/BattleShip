@@ -1,14 +1,9 @@
-﻿using GamePlay.UnitData;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GamePlay.UnitData;
 
 namespace GamePlay
 {
-    public struct PerceptionData : IUnitData
-    {
-        public List<UnitBase> targets;
-    }
-
     public class PerceptionSystem : SystemBase
     {
         public PerceptionSystem()
